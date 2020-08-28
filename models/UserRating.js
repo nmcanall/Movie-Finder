@@ -26,6 +26,10 @@ UserRating.init(
                 model: 'movie',
                 key: 'id'
             }
+        },
+        score: {
+            type: DataTypes.INTEGER,
+            allowNull: false
         }
     },
     {
