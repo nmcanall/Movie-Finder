@@ -1,6 +1,9 @@
 const nodemailer = require("nodemailer");
 require("dotenv").config();
 
+// This will be exported as the verification code
+let code = "";
+
 const transporter = nodemailer.createTransport({
     service: 'gmail',
     auth: {
@@ -27,7 +30,6 @@ transporter.sendMail(mailOptions, (error, info) => {
 
 // Helper function to generate a validation code
 function generateCode() {
-    let code = "";
     const length = 6;
 
     // Character choices
@@ -54,4 +56,4 @@ function getRandomInt(max) {
     return (Math.floor(Math.random() * Math.floor(max)));
 }
 
-module.exports = emailCheck.js
+module.exports = code;
