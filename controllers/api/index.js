@@ -1,7 +1,6 @@
 const router = require("express").Router();
 
 const userRoutes = require("./user-routes.js");
-// const userDataRoutes = require("./user-data-routes.js");
 // const userRatingRoutes = require("./user-rating-routes.js"); 
 const movieRoutes = require("./movie-routes.js");
 
