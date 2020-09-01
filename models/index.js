@@ -1,16 +1,18 @@
-const User = require('./User')
-const UserData = require('./UserData')
-const Movie = require('./Movie')
-const UserRating = require('./UserRating')
+const User = require('./User');
+const Movie = require('./Movie');
+const UserRating = require('./UserRating');
+const Favorite = require('./Favorite');
+const WatchedMovie = require('./WatchedMovie');
+const WatchNext = require('./WatchNext');
 
-User.hasOne(UserData, {foreignKey: 'user_id'})
-User.hasMany(UserRating, {foreignKey: 'user_id'})
+User.hasMany(UserRating, {foreignKey: 'user_id'});
+User.hasMany(Favorite, {foreignKey: 'user_id'});
+User.hasMany(WatchedMovie, {foreignKey: 'user_id'});
+User.hasMany(WatchNext, {foreignKey: 'user_id'});
 
-UserData.belongsTo(User, {foreignKey: 'user_id'})
+Movie.hasMany(UserRating, {foreignKey: 'movie_id'});
+Movie.hasMany(Favorite, {foreignKey: 'user_id'});
+Movie.hasMany(WatchedMovie, {foreignKey: 'user_id'});
+Movie.hasMany(WatchNext, {foreignKey: 'user_id'});
 
-Movie.hasMany(UserRating, {foreignKey: 'movie_id'})
-
-UserRating.belongsTo(User, {foreignKey: 'user_id'})
-UserRating.belongsTo(Movie, {foreignKey: 'movie_id'})
-
-module.exports = {User,UserData,Movie,UserRating}
+module.exports = {User, Movie, UserRating, Favorite, WatchedMovie, WatchNext};
