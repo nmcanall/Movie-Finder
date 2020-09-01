@@ -1,5 +1,5 @@
 const router = require("express").Router();
-const {User, UserData, UserRating, Movie} = require("../../models");
+const {User, Movie, UserRating, Favorite, WatchedMovie, WatchNext} = require("../../models");
 
 // GET /api/users
 router.get("/", (req, res) => {
@@ -17,10 +17,32 @@ router.get("/", (req, res) => {
 router.get("/:id", (req, res) => {
     User.findOne({
         where: {id: req.params.id},
-        // include: [{
-        //     model: UserData,
-        //     attributes: ["id", "movies_to_watch", "watched_movies", "favorite_movies", "created_at"]
-        // }]
+        include: [
+            // {
+            //     model: Movie,
+            //     attributes: ["title"],
+            //     through: UserRating,
+            //     as: "user_ratings"
+            // },
+            // {
+            //     model: Movie,
+            //     attributes: ["title"],
+            //     through: Favorite,
+            //     as: "favorites"
+            // },
+            // {
+            //     model: Movie,
+            //     attributes: ["title"],
+            //     through: WatchedMovie,
+            //     as: "watched_movies"
+            // },
+            // {
+            //     model: Movie,
+            //     attributes: ["title"],
+            //     through: WatchNext,
+            //     as: "watch_nexts"
+            // }
+        ]
     })
         .then(dbUserData => {
             if(!dbUserData) {
@@ -51,50 +73,44 @@ router.post("/", (req, res) => {
         });
 });
 
-// // POST for login at /api/users/login
-// router.post("/login", (req, res) => {
-//     // Expects {email: 'lernantino@gmail.com', password: 'password1234'}
+// PUT /api/users/favorite
+router.put("/favorite", (req, res) => {
+    Favorite.create({
+        user_id: req.body.user_id,
+        movie_id: req.body.movie_id
+    })
+        .then(dbUserData => res.json(dbUserData))
+        .catch(err => {
+            console.log(err);
+            res.status(400).json(err);
+        });
+});
 
-//     // Check for email first
-//     User.findOne({
-//         where: {email: req.body.email}
-//     }).then(dbUserData => {
-//         // If email doesn't exist, no need to decrypt and check password
-//         if(!dbUserData) {
-//             res.status(400).json({message: "No user with that email address"});
-//             return;
-//         }
+// PUT /api/users/watched-movies
+router.put("/watched-movies", (req, res) => {
+    WatchedMovie.create({
+        user_id: req.body.user_id,
+        movie_id: req.body.movie_id
+    })
+        .then(dbUserData => res.json(dbUserData))
+        .catch(err => {
+            console.log(err);
+            res.status(400).json(err);
+        });
+});
 
-//         // Check given password matches password in database for given email
-//         const validPassword = dbUserData.checkPassword(req.body.password);
-//         if(!validPassword) {
-//             res.status(400).json({message: "Sorry, that is an incorrect password"});
-//             return;
-//         }
-
-//         // Validate session is active
-//         req.session.save(() => {
-//             // declare session variables
-//             req.session.user_id = dbUserData.id;
-//             req.session.username = dbUserData.username;
-//             req.session.loggedIn = true;
-      
-//             res.json({ user: dbUserData, message: 'You are now logged in!' });
-//         });
-//     });
-// });
-
-// // POST for logout at /api/users/logout
-// router.post("/logout", withAuth, (req, res) => {
-//     if(req.session.loggedIn) {
-//         req.session.destroy(() => {
-//             res.status(204).end();
-//         });
-//     }
-//     else {
-//         res.status(404).end();
-//     }
-// });
+// PUT /api/users/watch-next
+router.put("/watch-next", (req, res) => {
+    WatchNext.create({
+        user_id: req.body.user_id,
+        movie_id: req.body.movie_id
+    })
+        .then(dbUserData => res.json(dbUserData))
+        .catch(err => {
+            console.log(err);
+            res.status(400).json(err);
+        });
+});
 
 // PUT /api/users/id
 router.put("/:id", (req, res) => {

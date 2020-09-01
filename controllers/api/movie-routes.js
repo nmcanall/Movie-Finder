@@ -1,9 +1,24 @@
 const router = require("express").Router();
-const {Movie} = require("../../models");
+const {Movie, UserRating} = require("../../models");
+const sequelize = require("../../config/connection");
 
 // GET /api/users
 router.get("/", (req, res) => {
-    Movie.findAll()
+    Movie.findAll({
+        attributes: [
+            "id",
+            "title",
+            "description",
+            [
+                sequelize.literal('(SELECT COUNT(*) FROM user_rating WHERE movie.id = user_rating.movie_id)'),
+                'total_ratings'
+            ],
+            // [
+            //     Need to add scores then devide by total_ratings (remember 0 error handling),
+            //     'average_rating'
+            // ]
+        ]
+    })
         .then(dbMovieData => res.json(dbMovieData))
         .catch(err => {
             console.log(err);
@@ -14,7 +29,20 @@ router.get("/", (req, res) => {
 // GET /api/movies/id
 router.get("/:id", (req, res) => {
     Movie.findOne({
-        where: {id: req.params.id}
+        where: {id: req.params.id}, 
+        attributes: [
+            "id",
+            "title",
+            "description",
+            [
+                sequelize.literal('(SELECT COUNT(*) FROM user_rating WHERE movie.id = user_rating.movie_id)'),
+                'total_ratings'
+            ],
+            // [
+            //     Need to add scores then devide by total_ratings (remember 0 error handling),
+            //     'average_rating'
+            // ]
+        ]
     })
         .then(dbMovieData => {
             if(!dbMovieData) {
@@ -33,8 +61,7 @@ router.get("/:id", (req, res) => {
 router.post("/", (req, res) => {
     Movie.create({
         title: req.body.title,
-        description: req.body.description,
-        average_score: req.body.average_score
+        description: req.body.description
     })
         .then(dbMovieData => {
             res.json(dbMovieData);
@@ -45,6 +72,35 @@ router.post("/", (req, res) => {
         });
 });
 
+// PUT /api/movies/add-score
+router.put("/add-rating", (req, res) => {
+    UserRating.create({
+        user_id: req.body.user_id,
+        movie_id: req.body.movie_id,
+        score: req.body.score
+    })
+        .then(() => {
+            return Movie.findOne({
+                where: {id: req.body.movie_id},
+                attributes: [
+                    "id",
+                    "title",
+                    "description",
+                    [
+                        sequelize.literal('(SELECT COUNT(*) FROM user_rating WHERE movie.id = user_rating.movie_id)'),
+                        'total_ratings'
+                    ],
+                    // [
+                    //     Need to add scores then devide by total_ratings (remember 0 error handling),
+                    //     'average_rating'
+                    // ]
+                ]
+            })
+        })
+        .then(dbMovieData => res.json(dbMovieData))
+        .catch(err => res.json(err));
+});
+
 // PUT /api/users/id
 router.put("/:id", (req, res) => {
 
@@ -52,8 +108,7 @@ router.put("/:id", (req, res) => {
     Movie.update(
         {
             title: req.body.title,
-            description: req.body.description,
-            average_score: req.body.average_score
+            description: req.body.description
         }, 
         {
             where: {id: req.params.id}
