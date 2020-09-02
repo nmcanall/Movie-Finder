@@ -1,5 +1,5 @@
 const router = require("express").Router();
-const {Movie, UserRating} = require("../../models");
+const {Movie, User, UserRating} = require("../../models");
 const sequelize = require("../../config/connection");
 
 // GET /api/users
@@ -39,7 +39,8 @@ router.get("/:id", (req, res) => {
                 'total_ratings'
             ],
             // [
-            //     Need to add scores then devide by total_ratings (remember 0 error handling),
+            //     // Need to add scores then devide by total_ratings (remember 0 error handling),
+            //     sequelize.literal('(SELECT AVG(user-rating_score) FROM user_rating WHERE movie.id = user_rating.movie_id)'),
             //     'average_rating'
             // ]
         ]
@@ -72,7 +73,7 @@ router.post("/", (req, res) => {
         });
 });
 
-// PUT /api/movies/add-score
+// POST /api/movies/add-score
 router.put("/add-rating", (req, res) => {
     UserRating.create({
         user_id: req.body.user_id,
@@ -91,8 +92,9 @@ router.put("/add-rating", (req, res) => {
                         'total_ratings'
                     ],
                     // [
-                    //     Need to add scores then devide by total_ratings (remember 0 error handling),
-                    //     'average_rating'
+                    //     // Need to add scores then devide by total_ratings (remember 0 error handling),
+                    //     sequelize.literal('(SELECT AVG(*) FROM user_rating WHERE movie.id = user_rating.movie_id)',
+                    //     'average_rating')
                     // ]
                 ]
             })
