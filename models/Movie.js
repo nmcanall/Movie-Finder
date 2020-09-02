@@ -1,4 +1,4 @@
-const {Model,DataTypes} = require('sequelize')
+const {Model, DataTypes} = require('sequelize')
 const sequelize = require('../config/connection')
 
 class Movie extends Model {}
@@ -17,9 +17,6 @@ Movie.init(
         },
         description: {
             type: DataTypes.STRING
-        },
-        average_score: {
-            type: DataTypes.INTEGER
         }
     },
     {
