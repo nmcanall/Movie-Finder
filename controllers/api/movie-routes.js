@@ -58,7 +58,6 @@ router.post("/add-rating", async (req, res) => {
         )
         const newAverage = results[0].average
         console.log(newAverage)
-        //const updateData = await 
         Movie.update(
                 {
                     average_score: newAverage
