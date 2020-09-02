@@ -18,30 +18,30 @@ router.get("/:id", (req, res) => {
     User.findOne({
         where: {id: req.params.id},
         include: [
-            // {
-            //     model: Movie,
-            //     attributes: ["title"],
-            //     through: UserRating,
-            //     as: "user_ratings"
-            // },
-            // {
-            //     model: Movie,
-            //     attributes: ["title"],
-            //     through: Favorite,
-            //     as: "favorites"
-            // },
-            // {
-            //     model: Movie,
-            //     attributes: ["title"],
-            //     through: WatchedMovie,
-            //     as: "watched_movies"
-            // },
-            // {
-            //     model: Movie,
-            //     attributes: ["title"],
-            //     through: WatchNext,
-            //     as: "watch_nexts"
-            // }
+            {
+                model: Movie,
+                attributes: ["title"],
+                through: UserRating,
+                as: "user_ratings"
+            },
+            {
+                model: Movie,
+                attributes: ["title"],
+                through: Favorite,
+                as: "favorites"
+            },
+            {
+                model: Movie,
+                attributes: ["title"],
+                through: WatchedMovie,
+                as: "watched_movies"
+            },
+            {
+                model: Movie,
+                attributes: ["title"],
+                through: WatchNext,
+                as: "watch_nexts"
+            }
         ]
     })
         .then(dbUserData => {
