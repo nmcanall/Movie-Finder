@@ -185,6 +185,68 @@ router.put("/:id", withAuth, (req, res) => {
         });
 });
 
+// All delete apps for through tables are based on through-table_id...
+// ... it would be more helpful if it could be done by MovieTitle, so the front end doesn't have to track these IDs
+// DELETE /api/users/favorite/id
+router.put("/favorite/:id", withAuth, (req, res) => {
+    Favorite.destroy({
+        where: {
+            id: req.params.id
+        }
+    })
+        .then(dbUserData => {
+            if(!dbUserData) {
+                res.status(404).json({message: "No favorite movies found with this ID"});
+                return;
+            }
+            res.json(dbUserData);
+        })
+        .catch(err => {
+            console.log(err);
+            res.status(500).json({err});
+        });
+});
+
+// DELETE /api/users/watched-movies/id
+router.put("/watched-movies/:id", withAuth, (req, res) => {
+    Favorite.destroy({
+        where: {
+            id: req.params.id
+        }
+    })
+        .then(dbUserData => {
+            if(!dbUserData) {
+                res.status(404).json({message: "No watched movies found with this ID"});
+                return;
+            }
+            res.json(dbUserData);
+        })
+        .catch(err => {
+            console.log(err);
+            res.status(500).json({err});
+        });
+});
+
+// DELETE /api/users/watched-next/id
+router.put("/watch-next/:id", withAuth, (req, res) => {
+    Favorite.destroy({
+        where: {
+            id: req.params.id
+        }
+    })
+        .then(dbUserData => {
+            if(!dbUserData) {
+                res.status(404).json({message: "No watch-next movies found with this ID"});
+                return;
+            }
+            res.json(dbUserData);
+        })
+        .catch(err => {
+            console.log(err);
+            res.status(500).json({err});
+        });
+});
+
 // DELETE /api/users/id
 router.delete("/:id", withAuth, (req, res) => {
     User.destroy({
