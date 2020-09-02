@@ -58,17 +58,24 @@ router.post("/add-rating", async (req, res) => {
         )
         const newAverage = results[0].average
         console.log(newAverage)
-        const updateData = await Movie.update(
+        //const updateData = await 
+        Movie.update(
                 {
                     average_score: newAverage
                 },
                 {
                     where: {id: req.body.movie_id},
                 }
-        )
-        const message = {message: `Rating created! Average score for movie ${req.movie_id} is now ${average_score}`}
-        res.json(message)
-        // for some reason the res.json isn't sending, but everything else here is working correctly
+        ).then(average_score => {
+            const message = {message: `Rating created! Average score for movie ${req.movie_id} is now ${average_score}`}
+            console.log(message)
+            res.json(message)
+        })
+        .catch(err => {
+            console.log(":er", err)
+            res.json(err)
+        })
+       
     }
     catch(err){
     res.json(err);
