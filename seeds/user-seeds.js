@@ -3,34 +3,29 @@ const sequelize = require('../config/connection')
 
 const userData = [
     {
-        username: 'User1',
-        email: 'email1@email.com',
-        password: 'veryweakpassword'
-
+        username: "alex",
+        email: "alex@email.com",
+        password: "alex123"
     },
     {
-        username: 'User2',
-        email: 'email2@email.com',
-        password: 'veryweakpassword'
-
+        username: "bob",
+        email: "bob@email.com",
+        password: "bob123"
     },
     {
-        username: 'User3',
-        email: 'email3@email.com',
-        password: 'veryweakpassword'
-
+        username: "carl",
+        email: "carl@email.com",
+        password: "carl123"
     },
     {
-        username: 'User4',
-        email: 'email4@email.com',
-        password: 'veryweakpassword'
-
+        username: "doug",
+        email: "doug@email.com",
+        password: "doug123"
     },
     {
-        username: 'User5',
-        email: 'email5@email.com',
-        password: 'veryweakpassword'
-
+        username: "earl",
+        email: 'earl@email.com',
+        password: 'earl123'
     }
 ]
 
