@@ -4,21 +4,7 @@ const sequelize = require("../../config/connection");
 
 // GET /api/users
 router.get("/", (req, res) => {
-    Movie.findAll({
-        attributes: [
-            "id",
-            "title",
-            "description",
-            [
-                sequelize.literal('(SELECT COUNT(*) FROM user_rating WHERE movie.id = user_rating.movie_id)'),
-                'total_ratings'
-            ],
-            // [
-            //     Need to add scores then devide by total_ratings (remember 0 error handling),
-            //     'average_rating'
-            // ]
-        ]
-    })
+    Movie.findAll()
         .then(dbMovieData => res.json(dbMovieData))
         .catch(err => {
             console.log(err);
@@ -30,19 +16,6 @@ router.get("/", (req, res) => {
 router.get("/:id", (req, res) => {
     Movie.findOne({
         where: {id: req.params.id}, 
-        attributes: [
-            "id",
-            "title",
-            "description",
-            [
-                sequelize.literal('(SELECT COUNT(*) FROM user_rating WHERE movie.id = user_rating.movie_id)'),
-                'total_ratings'
-            ],
-            // [
-            //     Need to add scores then devide by total_ratings (remember 0 error handling),
-            //     'average_rating'
-            // ]
-        ]
     })
         .then(dbMovieData => {
             if(!dbMovieData) {
@@ -84,15 +57,18 @@ router.post("/add-rating", async (req, res) => {
             `SELECT AVG(score) as average FROM user_rating WHERE movie_id = ${req.body.movie_id}`
         )
         const newAverage = results[0].average
-        await Movie.update(
+        console.log(newAverage)
+        const updateData = await Movie.update(
                 {
-                    score: newAverage
+                    average_score: newAverage
                 },
                 {
                     where: {id: req.body.movie_id},
                 }
         )
-        res.json({message: `Rating created! Average score for movie ${movie_id} is now ${average_score}`})
+        const message = {message: `Rating created! Average score for movie ${req.movie_id} is now ${average_score}`}
+        res.json(message)
+        // for some reason the res.json isn't sending, but everything else here is working correctly
     }
     catch(err){
     res.json(err);
