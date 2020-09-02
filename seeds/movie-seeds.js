@@ -3,28 +3,24 @@ const sequelize = require('../config/connection')
 
 const data = [
     {
-        title: 'Movie1',
-        description: 'Generic Description',
-        average_score: 0
+        title: "Anchorman",
+        description: "funny movie"
     },
     {
-        title: 'Movie2',
-        description: 'Generic Description',
-        average_score: 5
+        title: "Batman",
+        description: "DC movie"
     },
     {
-        title: 'Movie3',
-        description: 'Generic Description',
-        average_score: 9
+        title: "Candyman",
+        description: "old movie"
     },
     {
-        title: 'Movie4',
-        description: 'Generic Description',
-        average_score: 8
+        title: "Dead Man",
+        description: "western movie"
     },
     {
-        title: 'Movie5',
-        description: 'Generic Description',
+        title: 'Enchantman',
+        description: 'I made this up to fit the movie name pattern',
         average_score: 4
     }
 ];
