@@ -5,8 +5,6 @@ const Favorite = require('./Favorite');
 const WatchedMovie = require('./WatchedMovie');
 const WatchNext = require('./WatchNext');
 
-
-
 // Allow a user to make a rating for a movie
 User.belongsToMany(Movie, {
     through: UserRating,
@@ -16,18 +14,6 @@ User.belongsToMany(Movie, {
 Movie.belongsToMany(User, {
     through: UserRating,
     as: "user_ratings",
-    foreignKey: "movie_id"
-});
-UserRating.belongsTo(User, {
-    foreignKey: "user_id"
-});
-UserRating.belongsTo(Movie, {
-    foreignKey: "movie_id"
-});
-User.hasMany(UserRating, {
-    foreignKey: "user_id"
-});
-Movie.hasMany(UserRating, {
     foreignKey: "movie_id"
 });
 
@@ -42,18 +28,6 @@ Movie.belongsToMany(User, {
     as: "favorites",
     foreignKey: "movie_id"
 });
-Favorite.belongsTo(User, {
-    foreignKey: "user_id"
-});
-Favorite.belongsTo(Movie, {
-    foreignKey: "movie_id"
-});
-User.hasMany(Favorite, {
-    foreignKey: "user_id"
-});
-Movie.hasMany(Favorite, {
-    foreignKey: "movie_id"
-});
 
 // Allow a user to save a watched movie
 User.belongsToMany(Movie, {
@@ -66,18 +40,6 @@ Movie.belongsToMany(User, {
     as: "watched_movies",
     foreignKey: "movie_id"
 });
-WatchedMovie.belongsTo(User, {
-    foreignKey: "user_id"
-});
-WatchedMovie.belongsTo(Movie, {
-    foreignKey: "movie_id"
-});
-User.hasMany(WatchedMovie, {
-    foreignKey: "user_id"
-});
-Movie.hasMany(WatchedMovie, {
-    foreignKey: "movie_id"
-});
 
 // Allow a user to save a movie to watch next
 User.belongsToMany(Movie, {
@@ -88,18 +50,6 @@ User.belongsToMany(Movie, {
 Movie.belongsToMany(User, {
     through: WatchNext,
     as: "watch_nexts",
-    foreignKey: "movie_id"
-});
-WatchNext.belongsTo(User, {
-    foreignKey: "user_id"
-});
-WatchNext.belongsTo(Movie, {
-    foreignKey: "movie_id"
-});
-User.hasMany(WatchNext, {
-    foreignKey: "user_id"
-});
-Movie.hasMany(WatchNext, {
     foreignKey: "movie_id"
 });
 
