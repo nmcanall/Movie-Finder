@@ -17,6 +17,9 @@ Movie.init(
         },
         description: {
             type: DataTypes.STRING
+        },
+        average_score: {
+            type:DataTypes.INTEGER
         }
     },
     {

@@ -72,34 +72,33 @@ router.post("/", (req, res) => {
         });
 });
 
-// PUT /api/movies/add-score
-router.put("/add-rating", (req, res) => {
-    UserRating.create({
-        user_id: req.body.user_id,
-        movie_id: req.body.movie_id,
-        score: req.body.score
-    })
-        .then(() => {
-            return Movie.findOne({
-                where: {id: req.body.movie_id},
-                attributes: [
-                    "id",
-                    "title",
-                    "description",
-                    [
-                        sequelize.literal('(SELECT COUNT(*) FROM user_rating WHERE movie.id = user_rating.movie_id)'),
-                        'total_ratings'
-                    ],
-                    // [
-                    //     Need to add scores then devide by total_ratings (remember 0 error handling),
-                    //     'average_rating'
-                    // ]
-                ]
-            })
+// POST /api/movies/add-score
+router.post("/add-rating", async (req, res) => {
+    try{    
+        await UserRating.create({
+            user_id: req.body.user_id,
+            movie_id: req.body.movie_id,
+            score: req.body.score
         })
-        .then(dbMovieData => res.json(dbMovieData))
-        .catch(err => res.json(err));
+        const [results,metadata] = await sequelize.query(
+            `SELECT AVG(score) as average FROM user_rating WHERE movie_id = ${req.body.movie_id}`
+        )
+        const newAverage = results[0].average
+        await Movie.update(
+                {
+                    score: newAverage
+                },
+                {
+                    where: {id: req.body.movie_id},
+                }
+        )
+        res.json({message: `Rating created! Average score for movie ${movie_id} is now ${average_score}`})
+    }
+    catch(err){
+    res.json(err);
+    }
 });
+
 
 // PUT /api/users/id
 router.put("/:id", (req, res) => {
