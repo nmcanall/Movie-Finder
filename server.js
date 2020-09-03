@@ -22,7 +22,7 @@ app.set("view engine", "handlebars");
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-// // Session dependencies
+// Session dependencies
 const session = require("express-session");
 const SequelizeStore = require("connect-session-sequelize")(session.Store);
 const sess = {
@@ -35,7 +35,7 @@ const sess = {
     })
 };
 
-// // Session middleware
+// Session middleware
 app.use(session(sess));
 
 // Turn on routes

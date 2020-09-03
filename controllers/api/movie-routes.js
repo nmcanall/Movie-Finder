@@ -1,6 +1,7 @@
 const router = require("express").Router();
-const {Movie, User, UserRating} = require("../../models");
+const {Movie, UserRating} = require("../../models");
 const sequelize = require("../../config/connection");
+const withAuth = require("../../utils/auth");
 
 // GET /api/users
 router.get("/", (req, res) => {
@@ -31,7 +32,7 @@ router.get("/:id", (req, res) => {
 });
 
 // POST /api/movies
-router.post("/", (req, res) => {
+router.post("/", withAuth, (req, res) => {
     Movie.create({
         title: req.body.title,
         description: req.body.description
@@ -46,7 +47,7 @@ router.post("/", (req, res) => {
 });
 
 // POST /api/movies/add-score
-router.post("/add-rating", async (req, res) => {
+router.post("/add-rating", withAuth, async (req, res) => {
     try{    
         await UserRating.create({
             user_id: req.body.user_id,
@@ -82,8 +83,8 @@ router.post("/add-rating", async (req, res) => {
 });
 
 
-// PUT /api/users/id
-router.put("/:id", (req, res) => {
+// PUT /api/movies/id
+router.put("/:id", withAuth, (req, res) => {
 
     // if req.body has exact key/value pairs to match the model, you can just use `req.body` instead
     Movie.update(
@@ -109,7 +110,7 @@ router.put("/:id", (req, res) => {
 });
 
 // DELETE /api/movies/id
-router.delete("/:id", (req, res) => {
+router.delete("/:id", withAuth, (req, res) => {
     Movie.destroy(
         {
             where: {id: req.params.id}
