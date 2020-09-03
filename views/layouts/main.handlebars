@@ -28,16 +28,22 @@
               <a class="nav-link" href="/">Home <span class="sr-only">(current)</span></a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="#">My Favorites</a>
+              <a class="nav-link" href="#">{{ my favorites }}</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">Watch Later</a>
+              <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">{{ watch later }}</a>
             </li>
           </ul>
+<<<<<<< HEAD
           {{#unless search}}
           <form class="form-inline mt-2 mt-md-0 topnav-right search-form" >
             <input class="form-control mr-sm-2 search-field" type="text" placeholder="Search Movies" aria-label="Search Movies">
             <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+=======
+          <form class="form-inline mt-2 mt-md-0 topnav-right">
+            <input class="form-control mr-sm-2" type="text" placeholder="Search Movies" aria-label="Search Movies">
+            <button class="btn btn-outline-success my-2 my-sm-0" type="submit">{{ search }}</button>
+>>>>>>> 57ccf6e3be93f9de7312f61bbaee7c06405be530
           </form>
           {{/unless}}
         </div>
@@ -52,8 +58,8 @@
       <h1>Movie Finder</h1>
       <p class="lead text-muted" style="color:black font-bold">Search your favorite movie titles and genres then add them to your favorites or save and watch them later!</p>
       <p>
-        <a href="#" class="btn btn-primary my-2">My Favorites</a>
-        <a href="#" class="btn btn-secondary my-2">Watch Later</a>
+        <a href="#" class="btn btn-primary my-2">{{ my favorites }}</a>
+        <a href="#" class="btn btn-secondary my-2">{{ watch later }}</a>
       </p>
     </div>
   </section>
