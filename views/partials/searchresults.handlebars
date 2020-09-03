@@ -1,0 +1,20 @@
+{{#each this}}
+<div class="list-group list-group-horizontal-lg row d-flex justify-content-between m-2 col-12">
+    <div  class="list-group-item col-lg-3 d-flex justify-content-center">
+        {{#if poster_path}}
+        <img src="https://image.tmdb.org/t/p/w185{{poster_path}}" alt="Poster for ${data.title}">
+        {{else}}
+        <img src="./images/placeholder.jpg" alt="Poster for ${data.title}">
+        {{/if}}
+    </div>
+    <div class="list-group-item col-lg-7">
+        <h3>{{title}}</h3>
+        <h6>({{date}})</h6>
+        <p class="w-100">{{overview}}</p>
+    </div>
+    <div class="list-group-item d-flex flex-column justify-content-around col-lg-2">
+        <button class="btn btn-primary m-1">Add to Watch List</button>
+        <button class="btn btn-primary m-1">Add to Favorites</button>
+    </div>
+</div>
+{{/each}}

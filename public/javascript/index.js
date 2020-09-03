@@ -1,6 +1,6 @@
 function searchHandler(event) {
     event.preventDefault()
-    const query = $('#search-field').val().trim()
+    const query = $('.search-field').val().trim()
     console.log('Submitted!')
     if (query) {
         window.location.href = `./search?query=${query}`
@@ -10,4 +10,4 @@ function searchHandler(event) {
     }
 }
 
-$('#search-form').on('submit', searchHandler)
+$('.search-form').on('submit', searchHandler)

@@ -8,7 +8,7 @@
     <link rel="stylesheet" href="/stylesheets/homepage.css">
     <title>Movie Finder</title>
     
-    <script src="handlebars-v4.7.6.js "></script>
+    {{!-- <script src="handlebars-v4.7.6.js "></script> --}}
 </head>
 
 <body>
@@ -25,7 +25,7 @@
         <div class="collapse navbar-collapse" id="navbarCollapse">
           <ul class="navbar-nav mr-auto">
             <li class="nav-item active">
-              <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
+              <a class="nav-link" href="/">Home <span class="sr-only">(current)</span></a>
             </li>
             <li class="nav-item">
               <a class="nav-link" href="#">My Favorites</a>
@@ -34,10 +34,12 @@
               <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">Watch Later</a>
             </li>
           </ul>
-          <form class="form-inline mt-2 mt-md-0 topnav-right" id="search-form">
-            <input class="form-control mr-sm-2" id="search-field" type="text" placeholder="Search Movies" aria-label="Search Movies">
+          {{#unless search}}
+          <form class="form-inline mt-2 mt-md-0 topnav-right search-form" >
+            <input class="form-control mr-sm-2 search-field" type="text" placeholder="Search Movies" aria-label="Search Movies">
             <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
           </form>
+          {{/unless}}
         </div>
       </nav>
 </header>
