@@ -5,7 +5,7 @@ const {  } = require('../models');
 
 router.get('/', async (req,res) => {
     try{
-        res.render('homepage')
+        res.render('homepage',{loggedIn: req.session.loggedIn})
     }
     catch(err) {
         console.log(err)

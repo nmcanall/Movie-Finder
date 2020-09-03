@@ -28,22 +28,16 @@
               <a class="nav-link" href="/">Home <span class="sr-only">(current)</span></a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="#">{{ my favorites }}</a>
+              <a class="nav-link" href="#">my favorites </a>
             </li>
             <li class="nav-item">
-              <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">{{ watch later }}</a>
+              <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true"> watch later </a>
             </li>
           </ul>
-<<<<<<< HEAD
           {{#unless search}}
           <form class="form-inline mt-2 mt-md-0 topnav-right search-form" >
             <input class="form-control mr-sm-2 search-field" type="text" placeholder="Search Movies" aria-label="Search Movies">
             <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
-=======
-          <form class="form-inline mt-2 mt-md-0 topnav-right">
-            <input class="form-control mr-sm-2" type="text" placeholder="Search Movies" aria-label="Search Movies">
-            <button class="btn btn-outline-success my-2 my-sm-0" type="submit">{{ search }}</button>
->>>>>>> 57ccf6e3be93f9de7312f61bbaee7c06405be530
           </form>
           {{/unless}}
         </div>
@@ -58,8 +52,8 @@
       <h1>Movie Finder</h1>
       <p class="lead text-muted" style="color:black font-bold">Search your favorite movie titles and genres then add them to your favorites or save and watch them later!</p>
       <p>
-        <a href="#" class="btn btn-primary my-2">{{ my favorites }}</a>
-        <a href="#" class="btn btn-secondary my-2">{{ watch later }}</a>
+        <a href="#" class="btn btn-primary my-2"> my favorites </a>
+        <a href="#" class="btn btn-secondary my-2"> watch later </a>
       </p>
     </div>
   </section>
@@ -75,13 +69,16 @@
   </div>
 </footer>
 
-{{#if loggedIn}}
-<script src="/public/javascript/logout.js"></script>
-{{/if}}
+
 
 <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
 <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js" integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN" crossorigin="anonymous"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js" integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8shuf57BaghqFfPlYxofvL8/KUEfYiJOMMV+rV" crossorigin="anonymous"></script>
+{{#if loggedIn}}
+<script src="/javascript/logout.js"></script>
+{{else}}
+<script src='/javascript/login.js'></script>
+{{/if}}
 <script src="/javascript/index.js"></script>
 </body>
 </html>
