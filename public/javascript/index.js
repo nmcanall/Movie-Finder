@@ -10,4 +10,15 @@ function searchHandler(event) {
     }
 }
 
+function addWatchHandler(event) {
+    target = $(this)
+    console.log(target)
+
+}
+function addFavoriteHandler(event) {
+
+}
 $('.search-form').on('submit', searchHandler)
+
+$('.add-watch').on('click',addWatchHandler)
+$('.add-favorite').on('click',addFavoriteHandler)

@@ -20,6 +20,9 @@ Movie.init(
         },
         average_score: {
             type:DataTypes.INTEGER
+        },
+        image_url: {
+            type: DataTypes.STRING
         }
     },
     {
