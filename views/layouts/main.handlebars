@@ -28,10 +28,10 @@
               <a class="nav-link" href="/">Home <span class="sr-only">(current)</span></a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="#">my favorites </a>
+              <a class="nav-link" href="./favorites">My Favorites </a>
             </li>
             <li class="nav-item">
-              <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true"> watch later </a>
+              <a class="nav-link" href="./watch" tabindex="-1"> Watch Later </a>
             </li>
           </ul>
           {{#unless search}}
@@ -46,17 +46,18 @@
 
 <main role="main">
   
-
+  {{#unless blockJumbotron}}
   <section class="jumbotron">
     <div class="container">
       <h1>Movie Finder</h1>
-      <p class="lead text-muted" style="color:black font-bold">Search your favorite movie titles and genres then add them to your favorites or save and watch them later!</p>
+      <p class="lead text-light" style="color:black font-bold">Search your favorite movie titles and genres then add them to your favorites or save and watch them later!</p>
       <p>
-        <a href="#" class="btn btn-primary my-2"> my favorites </a>
-        <a href="#" class="btn btn-secondary my-2"> watch later </a>
+        <a href="./favorites" class="btn btn-primary my-2"> my favorites </a>
+        <a href="./watch" class="btn btn-secondary my-2"> watch later </a>
       </p>
     </div>
   </section>
+  {{/unless}}
   {{{ body }}}
 
 </main>
