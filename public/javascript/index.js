@@ -59,3 +59,4 @@ $('.search-form').on('submit', searchHandler)
 
 $('.add-watch').on('click',addWatchHandler)
 $('.add-favorites').on('click',addFavoriteHandler)
+
