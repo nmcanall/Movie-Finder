@@ -1,7 +1,7 @@
 const router = require('express').Router();
 const sequelize = require('../config/connection');
 const {queryMovieAPI,formatDate} = require('../utils/helpers')
-const { Movie, Favorite } = require('../models');
+const { Movie, Favorite, WatchNext } = require('../models');
 
 router.get('/', async (req,res) => {
     try{
@@ -69,7 +69,16 @@ router.get('/watch', async (req,res) => {
             res.redirect('/login')
             return
         }
-        res.render('watchlater',{blockJumbotron:true,loggedIn,listPage:true,})
+        const rawMovies = await Movie.findAll({
+            include: [
+                {
+                    model: WatchNext,
+                    where: {user_id: req.session.user_id}
+                }
+            ]
+        })
+        const movies = rawMovies.map(movie => movie.get({plain:true}))
+        res.render('watchlater',{blockJumbotron:true,loggedIn,listPage:true,movies})
     }
     catch(err) {
         console.log(err)
