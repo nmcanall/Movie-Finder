@@ -32,18 +32,32 @@ router.get("/:id", (req, res) => {
 });
 
 // POST /api/movies
-router.post("/", withAuth, (req, res) => {
-    Movie.create({
-        title: req.body.title,
-        description: req.body.description
-    })
-        .then(dbMovieData => {
-            res.json(dbMovieData);
-        })
-        .catch(err => {
-            console.log(err);
-            res.status(500).json(err);
+router.post("/", withAuth, async (req, res) => {
+    try {   
+        const movieCheck = await Movie.findOne({
+            where: {
+                title: req.body.title,
+                date: req.body.date
+            }
         });
+        console.log(movieCheck)
+        if (movieCheck) {
+            res.json({movie_id: movieCheck.id});
+        }
+        else{
+            const newMovie = await Movie.create({
+                title: req.body.title,
+                date: req.body.date,
+                description: req.body.description,
+                image_url: req.body.image_url
+            })
+            res.json(newMovie)
+        }
+    }
+    catch(err) {
+        console.log(err);
+        res.status(500).json(err);
+    }
 });
 
 // POST /api/movies/add-score
