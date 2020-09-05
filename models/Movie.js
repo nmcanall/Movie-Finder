@@ -13,10 +13,13 @@ Movie.init(
         title: {
             type: DataTypes.STRING,
             allowNull: false,
-            validate: {len:[1,15]}
+            validate: {len:[1,50]}
+        },
+        date: {
+            type: DataTypes.STRING
         },
         description: {
-            type: DataTypes.STRING
+            type: DataTypes.TEXT
         },
         average_score: {
             type:DataTypes.INTEGER

@@ -2,15 +2,15 @@
 <div class="result-holder list-group list-group-horizontal-lg row d-flex justify-content-between m-2 col-12">
     <div  class="list-group-item col-lg-3 d-flex justify-content-center">
         {{#if poster_path}}
-        <img src="https://image.tmdb.org/t/p/w185{{poster_path}}" alt="Poster for ${data.title}">
+        <img src="https://image.tmdb.org/t/p/w185{{poster_path}}" class="movie-poster" alt="Poster for {{title}}">
         {{else}}
-        <img src="./images/placeholder.jpg" alt="Poster for ${data.title}">
+        <img src="./images/placeholder.jpg" class="movie-poster" alt="Poster for {{title}}">
         {{/if}}
     </div>
     <div class="list-group-item col-lg-7">
-        <h3>{{title}}</h3>
-        <h6>({{date}})</h6>
-        <p class="w-100">{{overview}}</p>
+        <h3 class="movie-title">{{title}}</h3>
+        <h6 class="movie-date">({{date}})</h6>
+        <p class="w-100 movie-overview">{{overview}}</p>
     </div>
     <div class="list-group-item d-flex flex-column justify-content-around col-lg-2">
         <button class="btn btn-primary m-1 add-watch">Add to Watch List</button>

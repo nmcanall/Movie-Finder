@@ -125,22 +125,35 @@ router.post("/logout", withAuth, (req, res) => {
 });
 
 // PUT /api/users/favorite
-router.put("/favorite", withAuth, (req, res) => {
-    Favorite.create({
-        user_id: req.body.user_id,
-        movie_id: req.body.movie_id
-    })
-        .then(dbUserData => res.json(dbUserData))
-        .catch(err => {
-            console.log(err);
-            res.status(400).json(err);
+router.put("/favorite", withAuth, async (req, res) => {
+    try {
+        const checkAdded = await Favorite.findOne({
+            where: {
+                user_id: req.session.user_id,
+                movie_id: req.body.movie_id
+            }
+        })
+        if (checkAdded) {
+            res.json({message: 'Already added!'})
+        }
+        else {
+            const dbUserData = await Favorite.create({
+            user_id: req.session.user_id,
+            movie_id: req.body.movie_id
         });
+        res.json(dbUserData);
+        }
+    }
+    catch(err) {
+        console.log(err);
+        res.status(500).json(err);
+    }
 });
 
 // PUT /api/users/watched-movies
 router.put("/watched-movies", withAuth, (req, res) => {
     WatchedMovie.create({
-        user_id: req.body.user_id,
+        user_id: req.session.user_id,
         movie_id: req.body.movie_id
     })
         .then(dbUserData => res.json(dbUserData))
@@ -151,16 +164,29 @@ router.put("/watched-movies", withAuth, (req, res) => {
 });
 
 // PUT /api/users/watch-next
-router.put("/watch-next", withAuth, (req, res) => {
-    WatchNext.create({
-        user_id: req.body.user_id,
-        movie_id: req.body.movie_id
-    })
-        .then(dbUserData => res.json(dbUserData))
-        .catch(err => {
-            console.log(err);
-            res.status(400).json(err);
+router.put("/watch-next", withAuth, async (req, res) => {
+    try {
+        const checkAdded = await WatchNext.findOne({
+            where: {
+                user_id: req.session.user_id,
+                movie_id: req.body.movie_id
+            }
+        })
+        if (checkAdded) {
+            res.json({message: 'Already added!'})
+        }
+        else {
+            const dbUserData = await WatchNext.create({
+            user_id: req.session.user_id,
+            movie_id: req.body.movie_id
         });
+        res.json(dbUserData);
+        }
+    }
+    catch(err) {
+        console.log(err);
+        res.status(500).json(err);
+    }
 });
 
 // PUT /api/users/id
