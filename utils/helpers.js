@@ -8,9 +8,7 @@ async function queryMovieAPI(query) {
     const url = `https://api.themoviedb.org/3/search/movie?api_key=${process.env.API_KEY}&language=en-US&query=${query}&page=1&include_adult=false`
     const stream = await fetch(url)
     const data = await stream.json()
-    const {total_results,total_pages,results} = data
-
-    return {total_results,total_pages,results}
+    return data
 };
 function formatDate(date) {
     const dateArr = date.split('-')

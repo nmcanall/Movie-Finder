@@ -28,11 +28,11 @@ router.get('/search', async (req,res) => {
             res.redirect('/login')
             return
         }
-        const results = await queryMovieAPI(req.query.query)
-        for (result of results.results) {
+        const {results} = await queryMovieAPI(req.query.query)
+        for (result of results) {
             result.date = formatDate(result.release_date)
         }
-        res.render('search', {search:true,results:results.results,loggedIn})
+        res.render('search', {search:true,results,loggedIn})
     }
     catch(err) {
         console.log(err)
