@@ -86,7 +86,20 @@ async function modalHandler(data) {
     $('.modal-text').text(text)
     $('.modal').modal()
 }
-
+function randomMovie() {
+    const movies = document.querySelectorAll(".movie-card")
+    const randomInt = Math.floor(Math.random() * Math.floor(movies.length))
+    const movie = $(movies[randomInt])
+    const modalBody = $('.modal-body')
+    const modalTitle = $('.modal-title')
+    modalBody.addClass('d-flex justify-content-center')
+    modalTitle.addClass('text-center col-12')
+    movie.find(".poster").clone().appendTo(modalBody)
+    modalTitle.text(
+        movie.find('.card-title').text()
+    )
+    $('.modal').modal()
+}
 function refresh(){
     location.reload()
 }
@@ -96,4 +109,5 @@ handleTruncate()
 $('.mark-watched').on('click', markWatchedHandler)
 $('.add-favorites').on('click', addFavoriteHanlder)
 $('.remove-favorites').on('click', removeFavoriteHandler)
+$('.random').on('click',randomMovie)
 $('#modal').on('hidden.bs.modal',refresh)
