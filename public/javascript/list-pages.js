@@ -34,6 +34,16 @@ async function markWatchedHandler(event) {
     location.reload()
 };
 
+async function removeFavoriteHandler(event) {
+    const movie_id = $(this).closest(".movie-card").attr("data-movie-id")
+    const deleteRequest = await fetch('/api/users/favorite', {
+        method: 'DELETE',
+        body: JSON.stringify({movie_id}),
+        headers: { 'Content-Type': 'application/json' }
+    })
+    location.reload()
+};
+
 async function addFavoriteHanlder(event) {
     const movie_id = $(this).closest(".movie-card").attr("data-movie-id")
     const addFavoriteStream = await fetch('./api/users/favorite', {
@@ -43,9 +53,11 @@ async function addFavoriteHanlder(event) {
     })
     const addFavoriteResponse = await addFavoriteStream.json()
     console.log(addFavoriteResponse)
-}
+};
+
 
 handleTruncate()
 
-$('.mark-watched').on('click',markWatchedHandler)
-$('.add-favorites').on('click',addFavoriteHanlder)
+$('.mark-watched').on('click', markWatchedHandler)
+$('.add-favorites').on('click', addFavoriteHanlder)
+$('.remove-favorites').on('click', removeFavoriteHandler)

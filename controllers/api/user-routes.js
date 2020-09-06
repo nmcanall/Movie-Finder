@@ -184,6 +184,7 @@ router.delete("/favorite", withAuth, async (req, res) => {
                 movie_id: req.body.movie_id
             }
         })
+        res.json({message: "Favorite removed!"})
     }
     catch(err) {
         console.log(err);
