@@ -14,5 +14,11 @@ function formatDate(date) {
     const dateArr = date.split('-')
     return `${dateArr[1]}/${dateArr[2]}/${dateArr[0]}`
 };
-
-module.exports = {queryMovieAPI,formatDate}
+function formatMovieData(rawData) {
+    const movies = rawData.map(movie => movie.get({plain:true}))
+    for(i=0;i<movies.length;i++) {
+        movies[i].index = i
+    }
+    return movies
+}
+module.exports = {queryMovieAPI,formatDate, formatMovieData}

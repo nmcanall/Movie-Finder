@@ -1,6 +1,6 @@
 const router = require('express').Router();
 const sequelize = require('../config/connection');
-const {queryMovieAPI,formatDate} = require('../utils/helpers')
+const {queryMovieAPI,formatDate,formatMovieData} = require('../utils/helpers')
 const { Movie, Favorite, WatchNext } = require('../models');
 
 router.get('/', async (req,res) => {
@@ -72,8 +72,8 @@ router.get('/favorites', async (req,res) => {
                 }
             ]
         })
-        const movies = rawMovies.map(movie => movie.get({plain:true}))
-        res.render('favorites',{blockJumbotron:true,loggedIn,listPage:true,movies})
+        const movies = formatMovieData(rawMovies)
+        res.render('favorites',{blockJumbotron:true,loggedIn,listPage:true,favorites:true,movies})
     }
     catch(err) {
         console.log(err)
@@ -95,8 +95,8 @@ router.get('/watch', async (req,res) => {
                 }
             ]
         })
-        const movies = rawMovies.map(movie => movie.get({plain:true}))
-        res.render('watchlater',{blockJumbotron:true,loggedIn,listPage:true,movies})
+        const movies = formatMovieData(rawMovies)
+        res.render('watchlater',{blockJumbotron:true,loggedIn,listPage:true,watchLater:true,movies})
     }
     catch(err) {
         console.log(err)
