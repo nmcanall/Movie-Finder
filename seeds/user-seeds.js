@@ -5,27 +5,37 @@ const userData = [
     {
         username: "alex",
         email: "alex@email.com",
-        password: "alex123"
+        password: "alex123",
+        isVerified: true,
+        verificationCode: ""
     },
     {
         username: "bob",
         email: "bob@email.com",
-        password: "bob123"
+        password: "bob123",
+        isVerified: true,
+        verificationCode: ""
     },
     {
         username: "carl",
         email: "carl@email.com",
-        password: "carl123"
+        password: "carl123",
+        isVerified: true,
+        verificationCode: ""
     },
     {
         username: "doug",
         email: "doug@email.com",
-        password: "doug123"
+        password: "doug123",
+        isVerified: true,
+        verificationCode: ""
     },
     {
         username: "earl",
         email: 'earl@email.com',
-        password: 'earl123'
+        password: 'earl123',
+        isVerified: true,
+        verificationCode: ""
     }
 ]
 
