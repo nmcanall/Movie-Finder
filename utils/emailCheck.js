@@ -2,35 +2,37 @@ const nodemailer = require("nodemailer");
 require("dotenv").config();
 
 // This will be exported as the verification code
-let code = "";
+const verifyEmail = function(email, code) {
+    console.log("++++++++++++here");
+    const transporter = nodemailer.createTransport({
+        service: 'gmail',
+        auth: {
+            user: process.env.MY_GMAIL,
+            pass: process.env.MY_GMAIL_PASSWORD
+        }
+    });
 
-const transporter = nodemailer.createTransport({
-    service: 'gmail',
-    auth: {
-        user: process.env.MY_GMAIL,
-        pass: process.env.MY_GMAIL_PASSWORD
+    const mailOptions = {
+        from: process.env.MY_GMAIL,
+        to: email,
+        subject: "Movie-Finder Email Verification",
+        text: `Thanks for signing up for Movie-Finder!  Use the code ${code} to validate your email.`
     }
-});
 
-const mailOptions = {
-    from: process.env.MY_GMAIL,
-    to: "nmcanall@citadel.edu",
-    subject: "Movie-Finder Email Verification",
-    text: `Thanks for signing up for Movie-Finder!  Use the code ${generateCode()} to validate your email.`
+    transporter.sendMail(mailOptions, (error, info) => {
+        if(error) {
+            return error;
+        }
+        else {
+            return info.response;
+        }
+    });
 }
-
-transporter.sendMail(mailOptions, (error, info) => {
-    if(error) {
-        console.log(error);
-    }
-    else {
-        console.log(console.log("Email sent: " + info.response));
-    }
-});
 
 // Helper function to generate a validation code
 function generateCode() {
     const length = 6;
+    let code = ""
 
     // Character choices
     var uppercase = "ABCDEFGHIJKLMNOPQRSTUBWXYZ";
@@ -56,4 +58,4 @@ function getRandomInt(max) {
     return (Math.floor(Math.random() * Math.floor(max)));
 }
 
-module.exports = code;
+module.exports = {generateCode, verifyEmail};

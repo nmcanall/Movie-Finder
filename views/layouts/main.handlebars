@@ -19,6 +19,7 @@
         <a class="navbar-brand" id="logout"  href="#">Logout</a>
         {{else}}
         <a class="navbar-brand" href="./login">Login</a>
+        <a class="navbar-brand" href="./signup">Signup</a>
         {{/if}}
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
           <span class="navbar-toggler-icon"></span>
@@ -81,6 +82,8 @@
 <script src="/javascript/logout.js"></script>
 {{else}}
 <script src='/javascript/login.js'></script>
+<script src='/javascript/signup.js'></script>
+<script src='/javascript/verify.js'></script>
 {{/if}}
 {{#if listPage}}
 <script src="/javascript/list-pages.js"></script>

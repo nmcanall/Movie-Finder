@@ -32,6 +32,16 @@ User.init(
             type: DataTypes.STRING,
             allowNull: false,
             validate: {len:[4]}
+        },
+        isVerified: {
+            type: DataTypes.BOOLEAN,
+            allowNull: false,
+            defaultValue: false
+        },
+        verificationCode: {
+            type: DataTypes.STRING,
+            allowNull: false,
+            defaultValue: ""
         }
     },
     {

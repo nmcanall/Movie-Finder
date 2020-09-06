@@ -2,6 +2,7 @@ const router = require("express").Router();
 const {User, Movie, UserRating, Favorite, WatchedMovie, WatchNext} = require("../../models");
 const { route } = require("./movie-routes");
 const withAuth = require("../../utils/auth");
+const {generateCode, verifyEmail} = require("../../utils/emailCheck");
 
 // GET /api/users
 router.get("/", (req, res) => {
@@ -61,12 +62,17 @@ router.get("/:id", (req, res) => {
 
 // POST /api/users 
 router.post("/", (req, res) => {
+    const code = generateCode();
     User.create({
         username: req.body.username,
         email: req.body.email,
-        password: req.body.password
+        password: req.body.password,
+        isVerified: false,
+        verificationCode: code
     })
         .then(dbUserData => {
+            // Send email to verify the user
+            verifyEmail(req.body.email, code);
             req.session.save(() => {
                 req.session.user_id = dbUserData.id;
                 req.session.username = dbUserData.username;
@@ -98,6 +104,26 @@ router.post("/login", (req, res) => {
             if(!validPassword) {
                 res.status(400).json({message: "Sorry, that is an incorrect password"});
                 return;
+            }
+
+            // Check if the email is verified
+            if(!dbUserData.isVerified) {
+                if(req.body.verificationCode) {
+                    if(req.body.verificationCode === dbUserData.verificationCode) {
+                        // Change isVerified to true
+                        User.update({isVerified: true}, {
+                            where: {id: dbUserData.dataValues.id}
+                        });
+                    }
+                    else {
+                        res.status(400).json({message: "The verification code is incorrect"});
+                        return;
+                    }
+                }
+                else {
+                    res.status(400).json({message: "You must first verify your email"});
+                    return;
+                }
             }
 
             // Validate session is active
