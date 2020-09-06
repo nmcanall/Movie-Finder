@@ -36,4 +36,4 @@ async function signupFormHandler(event) {
     }
 };
 
-$(".form-signup").on('submit', signupFormHandler)
+$(".form-signup").on('submit', signupFormHandler);
