@@ -175,7 +175,22 @@ router.put("/favorite", withAuth, async (req, res) => {
         res.status(500).json(err);
     }
 });
-
+// DELETE /api/users/favorite
+router.delete("/favorite", withAuth, async (req, res) => {
+    try {
+        await Favorite.destroy({
+            where: {
+                user_id: req.session.user_id,
+                movie_id: req.body.movie_id
+            }
+        })
+        res.json({message: "Favorite removed!"})
+    }
+    catch(err) {
+        console.log(err);
+        res.status(500).json(err);
+    }
+});
 // PUT /api/users/watched-movies
 router.put("/watched-movies", withAuth, (req, res) => {
     WatchedMovie.create({
@@ -205,7 +220,7 @@ router.put("/watch-next", withAuth, async (req, res) => {
             const dbUserData = await WatchNext.create({
             user_id: req.session.user_id,
             movie_id: req.body.movie_id
-        });
+            });
         res.json(dbUserData);
         }
     }
@@ -214,6 +229,30 @@ router.put("/watch-next", withAuth, async (req, res) => {
         res.status(500).json(err);
     }
 });
+// DELETE /api/users/watch-next
+router.delete("/watch-next", withAuth, async (req, res) => {
+    try {
+        await WatchNext.destroy({
+            where: {
+                user_id: req.session.user_id,
+                movie_id: req.body.movie_id
+            }
+        })
+        // once they've watched it, remove the WatchNext entry and create a Watched entry.
+        // It's possible for a user to re-add a watched movie back to their watchlist and re-mark it as watched;
+        // this would cause multiple WatchedMovie entries, but that's ok, recording how many times they've watched it is potentially
+        // useful data; if we were displaying a watched list, it could say "you watched this 4 times!", etc
+        const watched = WatchedMovie.create({
+            user_id: req.session.user_id,
+            movie_id: req.body.movie_id
+        })
+        res.json(watched)
+    }
+    catch(err) {
+        console.log(err);
+        res.status(500).json(err);
+    }
+})
 
 // PUT /api/users/id
 router.put("/:id", withAuth, (req, res) => {

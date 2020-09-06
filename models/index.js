@@ -53,4 +53,14 @@ Movie.belongsToMany(User, {
     foreignKey: "movie_id"
 });
 
+Movie.hasMany(Favorite, {foreignKey: "movie_id"})
+Favorite.belongsTo(Movie, {foreignKey: "movie_id"})
+User.hasMany(Favorite, {foreignKey: "user_id"})
+Favorite.belongsTo(User, {foreignKey: "user_id"})
+
+Movie.hasMany(WatchNext, {foreignKey: "movie_id"})
+WatchNext.belongsTo(Movie, {foreignKey: "movie_id"})
+User.hasMany(WatchNext, {foreignKey: "user_id"})
+WatchNext.belongsTo(User, {foreignKey: "user_id"})
+
 module.exports = {User, Movie, UserRating, Favorite, WatchedMovie, WatchNext};

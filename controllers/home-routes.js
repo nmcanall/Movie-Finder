@@ -1,7 +1,7 @@
 const router = require('express').Router();
 const sequelize = require('../config/connection');
-const {queryMovieAPI,formatDate} = require('../utils/helpers')
-const {  } = require('../models');
+const {queryMovieAPI,formatDate,formatMovieData} = require('../utils/helpers')
+const { Movie, Favorite, WatchNext } = require('../models');
 
 router.get('/', async (req,res) => {
     try{
@@ -46,11 +46,11 @@ router.get('/search', async (req,res) => {
             res.redirect('/login')
             return
         }
-        const results = await queryMovieAPI(req.query.query)
-        for (result of results.results) {
+        const {results} = await queryMovieAPI(req.query.query)
+        for (result of results) {
             result.date = formatDate(result.release_date)
         }
-        res.render('search', {search:true,results:results.results,loggedIn})
+        res.render('search', {search:true,results,loggedIn})
     }
     catch(err) {
         console.log(err)
@@ -64,7 +64,16 @@ router.get('/favorites', async (req,res) => {
             res.redirect('/login')
             return
         }
-        res.render('favorites',{blockJumbotron:true,loggedIn})
+        const rawMovies = await Movie.findAll({
+            include: [
+                {
+                    model: Favorite,
+                    where: {user_id: req.session.user_id}
+                }
+            ]
+        })
+        const movies = formatMovieData(rawMovies)
+        res.render('favorites',{blockJumbotron:true,loggedIn,listPage:true,favorites:true,movies})
     }
     catch(err) {
         console.log(err)
@@ -78,7 +87,16 @@ router.get('/watch', async (req,res) => {
             res.redirect('/login')
             return
         }
-        res.render('watchlater',{blockJumbotron:true,loggedIn})
+        const rawMovies = await Movie.findAll({
+            include: [
+                {
+                    model: WatchNext,
+                    where: {user_id: req.session.user_id}
+                }
+            ]
+        })
+        const movies = formatMovieData(rawMovies)
+        res.render('watchlater',{blockJumbotron:true,loggedIn,listPage:true,watchLater:true,movies})
     }
     catch(err) {
         console.log(err)

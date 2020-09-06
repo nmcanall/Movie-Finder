@@ -40,7 +40,6 @@ router.post("/", withAuth, async (req, res) => {
                 date: req.body.date
             }
         });
-        console.log(movieCheck)
         if (movieCheck) {
             res.json({movie_id: movieCheck.id});
         }

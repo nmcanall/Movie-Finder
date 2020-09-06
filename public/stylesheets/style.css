@@ -1,4 +1,4 @@
-html,
+/* html,
 body {
   height: 100%;
 }
@@ -11,7 +11,7 @@ body {
   padding-top: 40px;
   padding-bottom: 40px;
   background-color: #f5f5f5;
-}
+} */
 
 .form-signin {
   width: 100%;
@@ -47,4 +47,22 @@ body {
 .homepage-body {
   min-height: 75rem;
   padding-top: 4.5rem;
+}
+
+.truncate {
+  /* need automatic multi-line height */
+  white-space: initial;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.truncate.open {
+  width: 500px;
+  white-space: normal;
+  text-overflow: inherit;
+}
+
+.helpicon {
+  position: relative;
+  float:right;
 }
