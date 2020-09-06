@@ -10,6 +10,11 @@ async function addWatchHandler(event) {
     const watchResponse = await watchResponseStream.json()
     console.log(movieResponse)
     console.log(watchResponse)
+    if (watchResponse.message) {
+        data.alreadyAdded = true
+    }
+    data.list = 'watch'
+    await modalHandler(data)
 }
 async function addFavoriteHandler(event) {
     const result = $(this).closest(".result-holder")
@@ -23,6 +28,11 @@ async function addFavoriteHandler(event) {
     const favoriteResponse = await favoriteResponseStream.json()
     console.log(movieResponse)
     console.log(favoriteResponse)
+    if (favoriteResponse.message) {
+        data.alreadyAdded = true
+    }
+    data.list = 'favorite'
+    await modalHandler(data)
 }
 function parseMovieData(result) {
     const title = result.find(".movie-title").text()
@@ -42,6 +52,18 @@ async function postMovie(data) {
         movieResponse.movie_id = movieResponse.id
     }
     return movieResponse
+}
+async function modalHandler(data) {
+    let text
+    if (data.alreadyAdded) {
+        text = `${data.title} is already on your ${data.list} list!` 
+    }
+    else {
+        text = `${data.title} has been added to your ${data.list} list!`
+    }
+    $('.modal-title').text(data.title)
+    $('.modal-text').text(text)
+    $('.modal').modal()
 }
 
 $('.add-watch').on('click',addWatchHandler)

@@ -25,39 +25,75 @@ function truncateText(text) {
     return text
 };
 async function markWatchedHandler(event) {
-    const movie_id = $(this).closest(".movie-card").attr("data-movie-id")
+    const movie = $(this).closest(".movie-card")
+    const movie_id = movie.attr("data-movie-id")
+    const title = movie.find(".card-title").text()
     const deleteRequest = await fetch('/api/users/watch-next', {
         method: 'DELETE',
         body: JSON.stringify({movie_id}),
         headers: { 'Content-Type': 'application/json' }
     })
-    location.reload()
+    await modalHandler({title,watched:true})
 };
 
 async function removeFavoriteHandler(event) {
-    const movie_id = $(this).closest(".movie-card").attr("data-movie-id")
+    const movie = $(this).closest(".movie-card")
+    const movie_id = movie.attr("data-movie-id")
+    const title = movie.find(".card-title").text()
     const deleteRequest = await fetch('/api/users/favorite', {
         method: 'DELETE',
         body: JSON.stringify({movie_id}),
         headers: { 'Content-Type': 'application/json' }
     })
-    location.reload()
+    await modalHandler({title,removeFavorite:true})
 };
 
 async function addFavoriteHanlder(event) {
-    const movie_id = $(this).closest(".movie-card").attr("data-movie-id")
+    const movie = $(this).closest(".movie-card")
+    const movie_id = movie.attr("data-movie-id")
+    const title = movie.find(".card-title").text()
     const addFavoriteStream = await fetch('./api/users/favorite', {
         method: 'PUT',
         body: JSON.stringify({movie_id}),
         headers: { 'Content-Type': 'application/json' }
     })
     const addFavoriteResponse = await addFavoriteStream.json()
+    const data = {title,addFavorite:true}
+    if (addFavoriteResponse.message) {
+        data.alreadyAdded = true
+    }
     console.log(addFavoriteResponse)
+    await modalHandler(data)
 };
 
+async function modalHandler(data) {
+    let text
+    if (data.watched) {
+        text = `${data.title} has been marked as watched!`
+    }
+    if (data.removeFavorite) {
+        text = `${data.title} has been removed from your favorites list!`
+    }
+    if (data.addFavorite) {
+        if (data.alreadyAdded) {
+            text = `${data.title} is already on your favorites list!`
+        }
+        else {
+            text = `${data.title} has been added to your favorites list!`
+        }
+    }
+    $('.modal-title').text(data.title)
+    $('.modal-text').text(text)
+    $('.modal').modal()
+}
+
+function refresh(){
+    location.reload()
+}
 
 handleTruncate()
 
 $('.mark-watched').on('click', markWatchedHandler)
 $('.add-favorites').on('click', addFavoriteHanlder)
 $('.remove-favorites').on('click', removeFavoriteHandler)
+$('#modal').on('hidden.bs.modal',refresh)
