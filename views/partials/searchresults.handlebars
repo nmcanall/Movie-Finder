@@ -14,7 +14,10 @@
     </div>
     <div class="list-group-item d-flex flex-column justify-content-around col-lg-2">
         <button class="btn btn-primary m-1 add-watch">Add to Watch List</button>
-        <button class="btn btn-primary m-1 add-favorites">Add to Favorites</button>
+        <button class="btn btn-primary m-1 add-favorites" {{click_favorites}}>Add to Favorites</button>
+    </div>
+    <div class="row d-flex" id="modal">
+        {{> modal }}
     </div>
 </div>
 {{/each}}
