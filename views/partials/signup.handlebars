@@ -1,0 +1,21 @@
+ {{#form class="form-signin col-12" action="/action_page.php"}}
+    <div class="container">
+      <h1>Sign Up</h1>
+      <p>Please fill in this form to create an account.</p>
+      <hr>
+      {{label "email" "Email"}}
+      {{email "Email"}}
+
+      {{label "password" "Password"}}
+      {{password "Password"}}
+
+      {{label "psw-repeat" "Repeat Password"}}
+      {{psw-repeat "Repeat Password"}}
+    
+
+      <div class="clearfix">
+        {{button "button" class="btn btn-lg btn-secondary btn-block" "Cancel"}}
+        {{button "submit" class="btn btn-lg btn-secondary btn-block" "Sign Up"}}
+      </div>
+    </div>
+  {{/form}}
