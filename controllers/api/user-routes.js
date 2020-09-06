@@ -106,6 +106,26 @@ router.post("/login", (req, res) => {
                 return;
             }
 
+            // Check if the email is verified
+            if(!dbUserData.isVerified) {
+                if(req.body.verificationCode) {
+                    if(req.body.verificationCode === dbUserData.verificationCode) {
+                        // Change isVerified to true
+                        User.update({isVerified: true}, {
+                            where: {id: dbUserData.dataValues.id}
+                        });
+                    }
+                    else {
+                        res.status(400).json({message: "The verification code is incorrect"});
+                        return;
+                    }
+                }
+                else {
+                    res.status(400).json({message: "You must first verify your email"});
+                    return;
+                }
+            }
+
             // Validate session is active
             req.session.save(() => {
                 // declare session variables

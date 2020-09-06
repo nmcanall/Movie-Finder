@@ -15,21 +15,8 @@ async function signupFormHandler(event) {
             headers: { 'Content-Type': 'application/json' }
         });
         if (response.ok) {
-            // If signup is ok, immediately login
-            const loginResponse = await fetch('/api/users/login', {
-                method: 'POST',
-                body: JSON.stringify({
-                    email,
-                    password
-                }),
-                headers: { 'Content-Type': 'application/json' }
-            });
-            if (loginResponse.ok) {
-                window.location.href = '/';
-            } else {
-                alert(loginResponse.statusText)
-            }
-            console.log(response)
+            // If signup is ok, go to verification page
+            window.location.href = '/verify';
         } else {
             alert(response.statusText)
         }

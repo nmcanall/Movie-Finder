@@ -12,10 +12,10 @@ async function loginFormHandler(event) {
             }),
             headers: { 'Content-Type': 'application/json' }
         });
-        console.log(response)
         if (response.ok) {
             window.location.href = '/';
         } else {
+            console.log(response);
             alert(response.statusText)
         }
     }
