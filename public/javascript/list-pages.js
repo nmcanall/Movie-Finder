@@ -32,8 +32,20 @@ async function markWatchedHandler(event) {
         headers: { 'Content-Type': 'application/json' }
     })
     location.reload()
+};
+
+async function addFavoriteHanlder(event) {
+    const movie_id = $(this).closest(".movie-card").attr("data-movie-id")
+    const addFavoriteStream = await fetch('./api/users/favorite', {
+        method: 'PUT',
+        body: JSON.stringify({movie_id}),
+        headers: { 'Content-Type': 'application/json' }
+    })
+    const addFavoriteResponse = await addFavoriteStream.json()
+    console.log(addFavoriteResponse)
 }
 
 handleTruncate()
 
 $('.mark-watched').on('click',markWatchedHandler)
+$('.add-favorites').on('click',addFavoriteHanlder)
